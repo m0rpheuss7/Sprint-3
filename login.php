@@ -4,25 +4,43 @@ include('conexao.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
-    $senha = md5($_POST['senha']);
+    $senha = md5($_POST['senha']); // Usando MD5 para hashing básico
 
-    // Adicionar o campo tipo na consulta SQL
-    $sql = "SELECT * FROM usuarios WHERE usuario='$usuario' AND senha='$senha'";
+    // Verificar se o usuário já existe no banco de dados
+    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Verificar o tipo de usuário
+        // O usuário existe, verificar a senha
         $row = $result->fetch_assoc();
-        $_SESSION['usuario'] = $usuario;
-        
-        // Redirecionar para a página correta
-        if ($row['tipo'] == 'admin') {
-            header('Location: index.php'); // Página para o administrador
+        if ($row['senha'] === $senha) {
+            $_SESSION['usuario'] = $usuario;
+
+            // Redirecionar de acordo com o tipo de usuário
+            if ($row['tipo'] == 'admin') {
+                header('Location: index.php'); // Página para o administrador
+            } else {
+                header('Location: mes.php'); // Página para o usuário comum
+            }
+            exit();
         } else {
-            header('Location: .php'); // Página para o usuário
+            $error = "Senha incorreta.";
         }
     } else {
-        $error = "Usuário ou senha inválidos.";
+        // O usuário não existe, oferecer a opção de criar um perfil
+        if (isset($_POST['criar_perfil']) && $_POST['criar_perfil'] == '1') {
+            // Inserir o novo usuário no banco de dados
+            $sql_insert = "INSERT INTO usuarios (usuario, senha, tipo) VALUES ('$usuario', '$senha', 'usuario')";
+            if ($conn->query($sql_insert) === TRUE) {
+                $_SESSION['usuario'] = $usuario;
+                header('Location: index.php'); // Redirecionar após criar o perfil
+                exit();
+            } else {
+                $error = "Erro ao criar perfil: " . $conn->error;
+            }
+        } else {
+            $error = "Usuário não encontrado. Deseja criar um perfil?";
+        }
     }
 }
 ?>
@@ -34,33 +52,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
     <style>
         html, body {
-            height: 100%; 
-            margin: 0; 
+            height: 100%;
+            margin: 0;
         }
 
         body {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background: linear-gradient(to bottom, #ffffff, #234467bd); 
-            background-attachment: fixed; 
-            background-size: cover; 
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ffffff, #234467bd);
+            background-attachment: fixed;
+            background-size: cover;
         }
-            
+
         div {
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0, 0, 0, 0.7);
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             padding: 80px;
             border-radius: 25px;
             color: aliceblue;
         }
 
         input {
-            padding: 25px;
+            padding: 15px;
             border: none;
             outline: none;
             font-size: 15px;
+            width: 100%;
+            margin-bottom: 15px;
         }
 
         button {
@@ -80,27 +100,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         h2 {
             text-align: center;
             font-size: 30px;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
     </style>
 </head>
 <body>
     <div>
         <h2>Login</h2>
-        <br>
         <form method="post" action="">
-            <label for="usuario"></label>
-            <input type="text" name="usuario" placeholder="Admin" required>
-            <br>
-            <br>
-            <label for="senha"></label>
+            <input type="text" name="usuario" placeholder="Usuário" required>
             <input type="password" name="senha" placeholder="Senha" required>
-            <br>
-            <br>
+            <?php if (isset($error)) echo "<p>$error</p>"; ?>
+            
+            <!-- Botão de login -->
             <button type="submit">Entrar</button>
-            <?php if (isset($error)) echo "<p class='message error'>$error</p>"; ?>
+
+            <!-- Caso o usuário não exista, exibir opção de criar perfil -->
+            <?php if (isset($error) && strpos($error, 'Deseja criar') !== false): ?>
+                <input type="hidden" name="criar_perfil" value="1">
+                <button type="submit">Criar Perfil</button>
+            <?php endif; ?>
         </form>
     </div>
 </body>
 </html>
+
 
