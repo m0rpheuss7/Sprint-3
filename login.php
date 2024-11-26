@@ -6,12 +6,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
     $senha = md5($_POST['senha']);
 
+    // Adicionar o campo tipo na consulta SQL
     $sql = "SELECT * FROM usuarios WHERE usuario='$usuario' AND senha='$senha'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
+        // Verificar o tipo de usuário
+        $row = $result->fetch_assoc();
         $_SESSION['usuario'] = $usuario;
-        header('Location: index.php');
+        
+        // Redirecionar para a página correta
+        if ($row['tipo'] == 'admin') {
+            header('Location: index.php'); // Página para o administrador
+        } else {
+            header('Location: .php'); // Página para o usuário
+        }
     } else {
         $error = "Usuário ou senha inválidos.";
     }
@@ -25,18 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
     <style>
         html, body {
-    height: 100%; 
-    margin: 0; 
-}
+            height: 100%; 
+            margin: 0; 
+        }
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             background: linear-gradient(to bottom, #ffffff, #234467bd); 
             background-attachment: fixed; 
             background-size: cover; 
-}
+        }
             
-        
         div {
             background-color: rgba(0,0,0,0.7);
             position: absolute;
@@ -46,32 +54,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding: 80px;
             border-radius: 25px;
             color: aliceblue;
-            
         }
-        input{
+
+        input {
             padding: 25px;
             border: none;
             outline: none;
             font-size: 15px;
         }
-        button{
-            background-color:#234467;
+
+        button {
+            background-color: #234467;
             border: none;
             padding: 15px;
-            width:100%;
+            width: 100%;
             border-radius: 10px;
-            color:aliceblue;
-            
+            color: aliceblue;
         }
-        button:hover{
+
+        button:hover {
             background-color: #43648a;
             cursor: pointer;
         }
-        h2{
+
+        h2 {
             text-align: center;
             font-size: 30px;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
         }
     </style>
 </head>
@@ -93,3 +102,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </body>
+</html>
+
