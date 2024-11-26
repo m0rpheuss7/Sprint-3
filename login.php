@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($row['tipo'] == 'admin') {
                 header('Location: index.php'); // Página para o administrador
             } else {
-                header('Location: mes.php'); // Página para o usuário comum
+                header('Location: home.php'); // Página para o usuário comum
             }
             exit();
         } else {
