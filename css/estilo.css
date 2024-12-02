@@ -73,9 +73,9 @@ body {
 }
 
 .container {
-    display: flex; /* Usar flexbox para alinhar itens */
-    align-items: center; /* Alinha verticalmente ao centro */
-    margin: 20px; /* Margem para a div */
+    display: flex; 
+    align-items: center; 
+    margin: 20px; 
     border-radius: 10px; /* Bordas arredondadas */
     background-color: #cacccf; /* Cor de fundo da div */
     padding: 15px; /* Espaçamento interno da div */

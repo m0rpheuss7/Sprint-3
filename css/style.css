@@ -125,3 +125,56 @@ header {
     margin: 0;
     font-size: 40px;
 }
+
+/* Estilo para tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff; /* Fundo branco para melhor contraste */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: 1px solid #cccccc;
+}
+
+th, td {
+    font-weight: bold ;
+    padding: 10px;
+    text-align: left;
+    font-size: 24px; /* Tamanho de fonte ajustado */
+    color: #333333; /* Cor mais escura para melhor legibilidade */
+}
+
+th {
+    background-color: #23232e; /* Fundo escuro */
+    color: #ffffff; /* Texto branco para contraste no cabeçalho */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Fundo alternado */
+}
+
+tr:hover {
+    background-color: #e0e0e0; /* Destaque ao passar o mouse */
+}
+
+
+
+/* Mensagens */
+.message {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}

@@ -11,7 +11,7 @@ $produtos = $conn->query("SELECT * FROM produtos WHERE concluido = 0");
 <head>
     <meta charset="UTF-8">
     <title>Produtos Disponíveis</title>
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="header">
