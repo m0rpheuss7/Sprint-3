@@ -15,14 +15,6 @@ CREATE TABLE usuarios (
     tipo ENUM('admin', 'usuario') DEFAULT 'usuario' -- Define tipos de usuário
 );
 
--- Criar tabela de fornecedores
-CREATE TABLE fornecedores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100),
-    telefone VARCHAR(20)
-);
-
 -- Criar tabela de produtos, relacionada com fornecedores
 CREATE TABLE produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,24 +27,6 @@ CREATE TABLE produtos (
     FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id) ON DELETE SET NULL
 );
 
--- Criar tabela de pedidos
-CREATE TABLE pedidos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
-
--- Criar tabela de itens do pedido
-CREATE TABLE itens_pedido (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    pedido_id INT NOT NULL,
-    produto_id INT NOT NULL,
-    quantidade INT DEFAULT 1,
-    preco DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
-    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
-);
 
 -- Inserir usuários de exemplo
 INSERT INTO usuarios (usuario, senha, tipo) 
