@@ -104,23 +104,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <div>
-        <h2>Login</h2>
-        <form method="post" action="">
-            <input type="text" name="usuario" placeholder="Usuário" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-            <?php if (isset($error)) echo "<p>$error</p>"; ?>
-            
-            <!-- Botão de login -->
-            <button type="submit">Entrar</button>
+<div>
+    <h2>Login</h2>
+    <form method="post" action="">
+        <input type="text" name="usuario" placeholder="Usuário" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <?php if (isset($error)) echo "<p>$error</p>"; ?>
+        
+        <!-- Botão de login -->
+        <button type="submit">Entrar</button>
+    </form>
+    <hr>
+    <!-- Botão para criar uma nova conta -->
+    <form action="cadastro.php" method="get">
+        <button type="submit">Criar Conta</button>
+    </form>
+</div>
 
-            <!-- Caso o usuário não exista, exibir opção de criar perfil -->
-            <?php if (isset($error) && strpos($error, 'Deseja criar') !== false): ?>
-                <input type="hidden" name="criar_perfil" value="1">
-                <button type="submit">Criar Perfil</button>
-            <?php endif; ?>
-        </form>
-    </div>
 </body>
 </html>
 
