@@ -178,3 +178,17 @@ tr:hover {
   background-color: #f8d7da;
   color: #721c24;
 }
+
+.btn-finalizar {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn-finalizar:hover {
+  background-color: #218838;
+}

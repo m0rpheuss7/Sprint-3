@@ -18,16 +18,22 @@ CREATE TABLE usuarios (
 -- Criar tabela de produtos, relacionada com fornecedores
 CREATE TABLE produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    fornecedor_id INT,
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
     preco DECIMAL(10, 2) NOT NULL,
     concluido TINYINT(1) DEFAULT 0, -- Indica se o produto está concluído
-    imagem VARCHAR(255) DEFAULT NULL, -- Coluna para armazenar o caminho da imagem do produto
-    FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id) ON DELETE SET NULL
+    imagem VARCHAR(255) DEFAULT NULL -- Coluna para armazenar o caminho da imagem do produto
 );
-
-
+CREATE TABLE contratos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    data_contrato DATE NOT NULL,
+    cliente_nome VARCHAR(100) NOT NULL,
+    cliente_email VARCHAR(100),
+    observacoes TEXT,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
+);
 -- Inserir usuários de exemplo
 INSERT INTO usuarios (usuario, senha, tipo) 
 VALUES 

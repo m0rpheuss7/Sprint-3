@@ -120,7 +120,6 @@ body {
     <nav class="navigation">
         <ul>
             <li><a href="index.php">Inicio</a></li>
-            <li><a href="cadastro_fornecedor.php">Cadastro de Funcionários</a></li>
             <li><a href="cadastro_produto.php">Cadastro de Serviços</a></li>
             <li><a href="listagem_produtos.php">Lista de Serviços</a></li>
             <li><a href="mes.php">Destaques do Mês</a></li>
