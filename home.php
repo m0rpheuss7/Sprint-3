@@ -24,7 +24,7 @@
     <nav class="navigation">
         <ul>
             <li><a href=".php">Início</a></li>
-            <li><a href=".php">Produtos</a></li>
+            <li><a href="produtos.php">Produtos</a></li>
             <li><a href=".php">Contrato de serviços</a></li>
             <li><a href="login.php">Sair</a></li>
             <li><a href=".php"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
