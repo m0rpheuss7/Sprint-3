@@ -65,14 +65,14 @@ $contratos = $conn->query($sql);
     <title>Contrato de Serviço</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<div>
 <header class="header">
     <div class="logo">
-        <h1>HidratecShop</h1>
+        <h1>Hidratec</h1>
     </div>
     <nav class="navigation">
         <ul>
-            <li><a href=".php">Início</a></li>
+            <li><a href="home.php">Início</a></li>
             <li><a href="produtos.php">Produtos</a></li>
             <li><a href="contrato.php">Contrato de serviços</a></li>
             <li><a href="login.php">Sair</a></li>

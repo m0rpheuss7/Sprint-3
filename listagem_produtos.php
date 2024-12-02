@@ -1,10 +1,6 @@
 <?php
 include 'conexao.php'; // Inclui a conexão com o banco de dados
 
-// Suponhamos que o ID do usuário esteja armazenado em uma variável de sessão (por exemplo, após o login)
-session_start();
-$usuario_id = $_SESSION['usuario_id'];  // A sessão deve estar configurada no login do usuário
-
 // Buscar os pedidos anteriores do usuário
 $sql_pedidos_anteriores = "
     SELECT 
@@ -37,14 +33,26 @@ $result_pedidos_anteriores = $stmt->get_result();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Processar Compra</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Lista de Serviços</title>
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <h1>Processar Compra</h1>
-
-    <!-- Exibição de compras anteriores -->
-    <h2>Histórico de Compras</h2>
+<header class="header">
+    <div class="logo">
+        <h1>Hidratec</h1>
+    </div>
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="cadastro_produto.php">Cadastro de serviços</a></li>
+            <li><a href="listagem_produtos.php">lista de serviços</a></li>
+            <li><a href="mes.php">Destaques do Mês</a></li>
+            <li><a href="login.php">Sair</a></li>
+        </ul>
+    </nav>
+</header>
+<div class="container1">
+    <h2>Lista de Serviços</h2>
     <table border="1">
         <thead>
             <tr>
@@ -54,12 +62,11 @@ $result_pedidos_anteriores = $stmt->get_result();
                 <th>Quantidade</th>
                 <th>Preço</th>
                 <th>Valor Total</th>
-                <th>Data da Compra</th>
+                <th>Data do Servico</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            // Verifica se há pedidos anteriores
             if ($result_pedidos_anteriores && $result_pedidos_anteriores->num_rows > 0) {
                 while ($row = $result_pedidos_anteriores->fetch_assoc()) {
                     echo "<tr>
@@ -77,39 +84,8 @@ $result_pedidos_anteriores = $stmt->get_result();
             }
             ?>
         </tbody>
+        </tbody>
     </table>
-
-    <!-- Formulário para processar nova compra -->
-    <h2>Nova Compra</h2>
-    <form action="finalizar_compra.php" method="POST">
-        <!-- Detalhes da nova compra (por exemplo, seleção de produtos, quantidade) -->
-        <label for="produto_id">Produto:</label>
-        <select name="produto_id" id="produto_id" required>
-            <?php
-            // Busca os produtos disponíveis no banco
-            $result_produtos = $conn->query("SELECT id, nome FROM produtos");
-            while ($row = $result_produtos->fetch_assoc()) {
-                echo "<option value='{$row['id']}'>{$row['nome']}</option>";
-            }
-            ?>
-        </select><br>
-
-        <label for="quantidade">Quantidade:</label>
-        <input type="number" name="quantidade" id="quantidade" required><br>
-
-        <label for="data_compra">Data da Compra:</label>
-        <input type="date" name="data_compra" id="data_compra" required><br>
-
-        <label for="cliente_nome">Nome do Cliente:</label>
-        <input type="text" name="cliente_nome" id="cliente_nome" required><br>
-
-        <label for="cliente_email">E-mail do Cliente:</label>
-        <input type="email" name="cliente_email" id="cliente_email"><br>
-
-        <label for="observacoes">Observações:</label>
-        <textarea name="observacoes" id="observacoes"></textarea><br>
-
-        <button type="submit">Finalizar Compra</button>
-    </form>
+</div>  
 </body>
 </html>

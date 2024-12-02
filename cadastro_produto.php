@@ -69,7 +69,7 @@ if (isset($_GET['edit_id'])) {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Produtos</title>
+    <title>Cadastro de Serviços</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -80,15 +80,15 @@ if (isset($_GET['edit_id'])) {
     <nav class="navigation">
         <ul>
             <li><a href="index.php">Início</a></li>
-            <li><a href="cadastro_produto.php">Cadastro de Produtos</a></li>
-            <li><a href="listagem_produtos.php">Lista de Produtos</a></li>
+            <li><a href="cadastro_produto.php">Cadastro de serviços</a></li>
+            <li><a href="listagem_produtos.php">Lista de serviços</a></li>
             <li><a href="mes.php">Destaques do Mês</a></li>
             <li><a href="login.php">Sair</a></li>
         </ul>
     </nav>
 </header>
 <div class="container1">
-    <h2>Cadastro de Produtos</h2>
+    <h2>Cadastro de Serviços</h2>
     <form method="post" action="" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $produto['id'] ?? ''; ?>">
         <input type="hidden" name="imagem_atual" value="<?php echo $produto['imagem'] ?? ''; ?>">

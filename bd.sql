@@ -15,16 +15,19 @@ CREATE TABLE usuarios (
     tipo ENUM('admin', 'usuario') DEFAULT 'usuario' -- Define tipos de usuário
 );
 
--- Criar tabela de produtos, relacionada com fornecedores
-CREATE TABLE produtos (
+-- Criação da tabela de produtos
+CREATE TABLE IF NOT EXISTS produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(255) NOT NULL,
     descricao TEXT,
-    preco DECIMAL(10, 2) NOT NULL,
-    concluido TINYINT(1) DEFAULT 0, -- Indica se o produto está concluído
-    imagem VARCHAR(255) DEFAULT NULL -- Coluna para armazenar o caminho da imagem do produto
+    preco DECIMAL(10, 2),
+    fornecedor_id INT,
+    concluido BOOLEAN DEFAULT 0,
+    imagem VARCHAR(255) DEFAULT 'imagens/default.jpg' -- Definindo valor default para a imagem
 );
-CREATE TABLE contratos (
+
+-- Criação da tabela de contratos
+CREATE TABLE IF NOT EXISTS contratos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     produto_id INT NOT NULL,
     quantidade INT NOT NULL,
@@ -34,6 +37,31 @@ CREATE TABLE contratos (
     observacoes TEXT,
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
 );
+
+-- Criação da tabela de pedidos
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_comprador VARCHAR(255) NOT NULL,
+    email_comprador VARCHAR(255) NOT NULL,
+    telefone_comprador VARCHAR(20) NOT NULL,
+    pagamento VARCHAR(50) NOT NULL,
+    horario TIME,
+    total DECIMAL(10, 2) NOT NULL,
+    data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Criação da tabela de itens de pedidos
+CREATE TABLE itens_pedido (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT NOT NULL,
+    produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    valor_item DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
+    FOREIGN KEY (produto_id) REFERENCES produtos(id)
+);
+
 -- Inserir usuários de exemplo
 INSERT INTO usuarios (usuario, senha, tipo) 
 VALUES 
@@ -44,5 +72,6 @@ VALUES
     ('alves', MD5('alves123'), 'usuario'),
     ('marcos', MD5('marcos123'), 'usuario');
 
+-- Atualização das imagens dos produtos
 UPDATE produtos SET imagem = 'imagens/produto1.jpg' WHERE id = 1;
 UPDATE produtos SET imagem = 'imagens/produto2.jpg' WHERE id = 2;
