@@ -99,14 +99,12 @@ body {
 header {
     display: flex;
     color: white;
-    padding: 25px 20px;
+    padding: 50px 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.2);
-    display: flex;
     justify-content: space-around;
     align-items: center;
     background: #23232e;
@@ -221,7 +219,7 @@ form button:hover {
     margin-top: 20px;
     text-align: center;
     font-weight: 1200;
-    margin-left: 400px;
+    margin-left: 300px;
 }
 
 .container2 {
@@ -235,5 +233,5 @@ form button:hover {
   margin-bottom: 20px;
   text-align: center;
   font-weight: 1200;
-  margin-left: 400px;
+  margin-left: 300px;
 }

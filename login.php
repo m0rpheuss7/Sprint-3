@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #ffffff, #234467bd);
+            background: linear-gradient(to bottom, #ffffff, #808080);
             background-attachment: fixed;
             background-size: cover;
         }
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         button {
-            background-color: #234467;
+            background-color: #808080;
             border: none;
             padding: 15px;
             width: 100%;
