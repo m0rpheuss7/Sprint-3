@@ -89,7 +89,7 @@ $contratos = $conn->query($sql);
         <p class="mensagem"><?php echo $mensagem; ?></p>
     <?php endif; ?>
 
-    <form action="contrato.php" method="POST">
+    <form action="carrinho.php" method="POST">
         <input type="hidden" name="id" value="<?php echo $_GET['edit_id'] ?? ''; ?>">
 
         <label for="produto_id">Produto:</label>
