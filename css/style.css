@@ -125,12 +125,13 @@ header {
 }
 
 table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #ffffff; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     align-items: center;
+    margin-left: 50px;
 }
 
 table, th, td {
@@ -198,17 +199,6 @@ form button:hover {
   color: #721c24;
 }
 
-.container {
-  background-color: #f4f7fc;
-  padding: 50px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgb(0, 0, 0);
-  width: 100%;
-  max-width: 1150px;
-  margin-top: 20px;
-  text-align: center;
-  margin-left: 110px;
-}
 .container1 {
     background-color: #f4f7fc;
     padding: 20px;

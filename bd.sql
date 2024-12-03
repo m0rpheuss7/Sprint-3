@@ -38,29 +38,6 @@ CREATE TABLE IF NOT EXISTS contratos (
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
 );
 
--- Criação da tabela de pedidos
-CREATE TABLE pedidos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome_comprador VARCHAR(255) NOT NULL,
-    email_comprador VARCHAR(255) NOT NULL,
-    telefone_comprador VARCHAR(20) NOT NULL,
-    pagamento VARCHAR(50) NOT NULL,
-    horario TIME,
-    total DECIMAL(10, 2) NOT NULL,
-    data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Criação da tabela de itens de pedidos
-CREATE TABLE itens_pedido (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    pedido_id INT NOT NULL,
-    produto_id INT NOT NULL,
-    quantidade INT NOT NULL,
-    preco DECIMAL(10, 2) NOT NULL,
-    valor_item DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
-    FOREIGN KEY (produto_id) REFERENCES produtos(id)
-);
 
 -- Inserir usuários de exemplo
 INSERT INTO usuarios (usuario, senha, tipo) 

@@ -45,58 +45,57 @@ $total = 0;
         </ul>
     </nav>
 </header>
-<div class="container">
+
     <h1>Lista de Serviços</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Data</th>
-                <th>Cliente</th>
-                <th>E-mail</th>
-                <th>Observações</th>
-                <th>Preço Unitário</th>
-                <th>Valor Total</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ($result && $result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    
-                    $valor_total = $row['preco'] * $row['quantidade'];
-                    $total += $valor_total; 
+    <div style="overflow-x:auto;">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>E-mail</th>
+                    <th>Observações</th>
+                    <th>Preço Unitário</th>
+                    <th>Valor Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $valor_total = $row['preco'] * $row['quantidade'];
+                        $total += $valor_total; 
 
-                    echo "<tr>
-                            <td>{$row['contrato_id']}</td>
-                            <td>{$row['produto_nome']}</td>
-                            <td>{$row['quantidade']}</td>
-                            <td>{$row['data_contrato']}</td>
-                            <td>{$row['cliente_nome']}</td>
-                            <td>{$row['cliente_email']}</td>
-                            <td>{$row['observacoes']}</td>
-                            <td>R$ " . number_format($row['preco'], 2, ',', '.') . "</td>
-                            <td>R$ " . number_format($valor_total, 2, ',', '.') . "</td>
-                            <td>
-                                <a href='contrato.php?edit_id={$row['contrato_id']}'>Editar</a>
-                                <a href='contrato.php?delete_id={$row['contrato_id']}' onclick=\"return confirm('Tem certeza que deseja excluir?')\">Excluir</a>
-                            </td>
-                          </tr>";
+                        echo "<tr>
+                                <td>{$row['contrato_id']}</td>
+                                <td>{$row['produto_nome']}</td>
+                                <td>{$row['quantidade']}</td>
+                                <td>{$row['data_contrato']}</td>
+                                <td>{$row['cliente_nome']}</td>
+                                <td>{$row['cliente_email']}</td>
+                                <td>{$row['observacoes']}</td>
+                                <td>R$ " . number_format($row['preco'], 2, ',', '.') . "</td>
+                                <td>R$ " . number_format($valor_total, 2, ',', '.') . "</td>
+                                <td>
+                                    <a href='contrato.php?edit_id={$row['contrato_id']}'>Editar</a>
+                                    <a href='contrato.php?delete_id={$row['contrato_id']}' onclick=\"return confirm('Tem certeza que deseja excluir?')\">Excluir</a>
+                                </td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='10'>Nenhum contrato encontrado</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='10'>Nenhum contrato encontrado</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+                ?>
+            </tbody>
+        </table>
     </div>
-    
-    <h3>Total dos Servicos: R$ <?php echo number_format($total, 2, ',', '.'); ?></h3>
-
+    <h3>Total dos Serviços: R$ <?php echo number_format($total, 2, ',', '.'); ?></h3>
     <br><br>
     <a href="carrinho.php">Adicionar mais serviços</a>
+</div>
 </body>
 </html>
