@@ -1,50 +1,8 @@
+
 <?php
-include 'conexao.php'; // Inclui a conexão com o banco
+include 'conexao.php'; // Conexão com o banco de dados
 
-$mensagem = ""; // Variável para exibir mensagens
-
-// Tratamento para adicionar ou editar contrato
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? null;
-    $produto_id = $_POST['produto_id'];
-    $quantidade = $_POST['quantidade'];
-    $data_contrato = $_POST['data_contrato'];
-    $cliente_nome = $_POST['cliente_nome'];
-    $cliente_email = $_POST['cliente_email'];
-    $observacoes = $_POST['observacoes'];
-
-    if ($id) {
-        $sql = "UPDATE contratos SET produto_id=?, quantidade=?, data_contrato=?, cliente_nome=?, cliente_email=?, observacoes=? WHERE id=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iissssi", $produto_id, $quantidade, $data_contrato, $cliente_nome, $cliente_email, $observacoes, $id);
-        $mensagem = "Contrato atualizado com sucesso!";
-    } else {
-        $sql = "INSERT INTO contratos (produto_id, quantidade, data_contrato, cliente_nome, cliente_email, observacoes) 
-                VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iissss", $produto_id, $quantidade, $data_contrato, $cliente_nome, $cliente_email, $observacoes);
-        $mensagem = "Contrato adicionado com sucesso!";
-    }
-
-    if (!$stmt->execute()) {
-        $mensagem = "Erro: " . $stmt->error;
-    }
-}
-
-// Tratamento para deletar contrato
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    $sql = "DELETE FROM contratos WHERE id=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $delete_id);
-    if ($stmt->execute()) {
-        $mensagem = "Contrato excluído com sucesso!";
-    } else {
-        $mensagem = "Erro ao excluir contrato: " . $stmt->error;
-    }
-}
-
-// Buscar contratos para exibição
+// Consulta para buscar os contratos e os produtos relacionados, incluindo o preço
 $sql = "SELECT 
             contratos.id AS contrato_id,
             produtos.nome AS produto_nome,
@@ -52,76 +10,93 @@ $sql = "SELECT
             contratos.data_contrato,
             contratos.cliente_nome,
             contratos.cliente_email,
-            contratos.observacoes
+            contratos.observacoes,
+            produtos.preco
         FROM contratos
         JOIN produtos ON contratos.produto_id = produtos.id";
-$contratos = $conn->query($sql);
+
+$result = $conn->query($sql);
+
+// Inicializar a variável para o valor total
+$total = 0;
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Contrato de Serviço</title>
+    <title>Serviços Agendados</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<div>
+<body>
 <header class="header">
     <div class="logo">
         <h1>Hidratec</h1>
     </div>
     <nav class="navigation">
         <ul>
-            <li><a href="home.php">Início</a></li>
-            <li><a href="produtos.php">Produtos</a></li>
-            <li><a href="contrato.php">Contrato de serviços</a></li>
-            <li><a href="login.php">Sair</a></li>
+        <li><a href="home.php">Início</a></li>
+            <li><a href="produtos.php">Servicos</a></li>
+            <li><a href="contrato.php">Agendados</a></li>
             <li><a href="carrinho.php"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-</svg></li></a>
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg></li></a>
+            <li><a href="login.php">Sair</a></li>
         </ul>
     </nav>
 </header>
-    <h1>Contrato de Serviço</h1>
-
-    <?php if ($mensagem): ?>
-        <p class="mensagem"><?php echo $mensagem; ?></p>
-    <?php endif; ?>
-
-    <form action="contrato.php" method="POST">
-        <input type="hidden" name="id" value="<?php echo $_GET['edit_id'] ?? ''; ?>">
-
-        <label for="produto_id">Produto:</label>
-        <select name="produto_id" id="produto_id" required>
+<div class="container">
+    <h1>Lista de Serviços</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>E-mail</th>
+                <th>Observações</th>
+                <th>Preço Unitário</th>
+                <th>Valor Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
             <?php
-            // Busca os produtos no banco
-            $result = $conn->query("SELECT id, nome FROM produtos");
-            while ($row = $result->fetch_assoc()) {
-                $selected = (isset($_GET['edit_id']) && $row['id'] == $contrato['produto_id']) ? 'selected' : '';
-                echo "<option value='{$row['id']}' $selected>{$row['nome']}</option>";
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $valor_total = $row['preco'] * $row['quantidade'];
+                    $total += $valor_total; 
+
+                    echo "<tr>
+                            <td>{$row['contrato_id']}</td>
+                            <td>{$row['produto_nome']}</td>
+                            <td>{$row['quantidade']}</td>
+                            <td>{$row['data_contrato']}</td>
+                            <td>{$row['cliente_nome']}</td>
+                            <td>{$row['cliente_email']}</td>
+                            <td>{$row['observacoes']}</td>
+                            <td>R$ " . number_format($row['preco'], 2, ',', '.') . "</td>
+                            <td>R$ " . number_format($valor_total, 2, ',', '.') . "</td>
+                            <td>
+                                <a href='contrato.php?edit_id={$row['contrato_id']}'>Editar</a>
+                                <a href='contrato.php?delete_id={$row['contrato_id']}' onclick=\"return confirm('Tem certeza que deseja excluir?')\">Excluir</a>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10'>Nenhum contrato encontrado</td></tr>";
             }
             ?>
-        </select><br>
-
-        <label for="quantidade">Quantidade:</label>
-        <input type="number" name="quantidade" id="quantidade" required><br>
-
-        <label for="data_contrato">Data:</label>
-        <input type="date" name="data_contrato" id="data_contrato" required><br>
-
-        <label for="cliente_nome">Nome do Cliente:</label>
-        <input type="text" name="cliente_nome" id="cliente_nome" required><br>
-
-        <label for="cliente_email">E-mail do Cliente:</label>
-        <input type="email" name="cliente_email" id="cliente_email"><br>
-
-        <label for="observacoes">Observações:</label>
-        <textarea name="observacoes" id="observacoes"></textarea><br>
-
-        <button type="submit">Salvar Contrato</button>
-    </form>
-
         </tbody>
     </table>
+    </div>
+    
+    <h3>Total dos Servicos: R$ <?php echo number_format($total, 2, ',', '.'); ?></h3>
+
+    <br><br>
+    <a href="carrinho.php">Adicionar mais serviços</a>
 </body>
 </html>

@@ -4,36 +4,36 @@ include('conexao.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
-    $senha = md5($_POST['senha']); // Usando MD5 para hashing básico
+    $senha = md5($_POST['senha']); 
 
-    // Verificar se o usuário já existe no banco de dados
+    
     $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // O usuário existe, verificar a senha
+        
         $row = $result->fetch_assoc();
         if ($row['senha'] === $senha) {
             $_SESSION['usuario'] = $usuario;
 
-            // Redirecionar de acordo com o tipo de usuário
+            
             if ($row['tipo'] == 'admin') {
-                header('Location: index.php'); // Página para o administrador
+                header('Location: index.php');
             } else {
-                header('Location: home.php'); // Página para o usuário comum
+                header('Location: home.php'); 
             }
             exit();
         } else {
             $error = "Senha incorreta.";
         }
     } else {
-        // O usuário não existe, oferecer a opção de criar um perfil
+       
         if (isset($_POST['criar_perfil']) && $_POST['criar_perfil'] == '1') {
-            // Inserir o novo usuário no banco de dados
+           
             $sql_insert = "INSERT INTO usuarios (usuario, senha, tipo) VALUES ('$usuario', '$senha', 'usuario')";
             if ($conn->query($sql_insert) === TRUE) {
                 $_SESSION['usuario'] = $usuario;
-                header('Location: index.php'); // Redirecionar após criar o perfil
+                header('Location: index.php'); 
                 exit();
             } else {
                 $error = "Erro ao criar perfil: " . $conn->error;

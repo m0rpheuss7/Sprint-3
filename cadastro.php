@@ -4,24 +4,23 @@ include('conexao.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
-    $senha = md5($_POST['senha']); // Hash da senha
+    $senha = md5($_POST['senha']); 
     $confirmar_senha = md5($_POST['confirmar_senha']);
 
     if ($senha !== $confirmar_senha) {
         $error = "As senhas não coincidem.";
     } else {
-        // Verificar se o usuário já existe
+       
         $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $error = "Usuário já existe.";
         } else {
-            // Inserir o novo usuário no banco de dados
             $sql_insert = "INSERT INTO usuarios (usuario, senha, tipo) VALUES ('$usuario', '$senha', 'usuario')";
             if ($conn->query($sql_insert) === TRUE) {
                 $_SESSION['usuario'] = $usuario;
-                header('Location: home.php'); // Redirecionar após cadastro
+                header('Location: home.php'); 
                 exit();
             } else {
                 $error = "Erro ao criar conta: " . $conn->error;
@@ -37,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <title>Cadastro</title>
     <style>
-        /* Reutilize os estilos do login para consistência */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #ffffff, #234467bd);

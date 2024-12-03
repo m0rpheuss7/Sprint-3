@@ -56,7 +56,7 @@ header {
 }
 
 .navigation a:hover {
-    background-color: #848484; /* Cor de fundo ao passar o mouse */
+    background-color: #848484; 
     color: white;
 }
 
@@ -76,10 +76,10 @@ body {
     display: flex; 
     align-items: center; 
     margin: 20px; 
-    border-radius: 10px; /* Bordas arredondadas */
-    background-color: #cacccf; /* Cor de fundo da div */
-    padding: 15px; /* Espaçamento interno da div */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra da div */
+    border-radius: 10px; 
+    background-color: #cacccf; 
+    padding: 15px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .container1 {
     background-color: #cacccf;
@@ -88,17 +88,28 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 600px;
-    margin: 20px;
+    
+    text-align: center;
+}
+.container2 {
+    background-color: #cacccf;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 900px;
+    margin-top: 20px;
+    text-align: center;
 }
 .qa-image {
-    width: 250px; /* Ajuste o tamanho da imagem conforme necessário */
-    height: auto; /* Mantém a proporção da imagem */
+    width: 250px; 
+    height: auto; 
     margin-right: 20px; 
-    border-radius: 10px;/* Espaçamento entre a imagem e o texto */
+    border-radius: 10px;
 }
 
 .welcome-text {
-    font-size: 55px; /* Ajuste o tamanho da fonte conforme necessário */
+    font-size: 55px;
     color: #333333d4;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
