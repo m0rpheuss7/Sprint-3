@@ -1,8 +1,7 @@
 
 <?php
-include 'conexao.php'; // Conexão com o banco de dados
+include 'conexao.php'; 
 
-// Consulta para buscar os contratos e os produtos relacionados, incluindo o preço
 $sql = "SELECT 
             contratos.id AS contrato_id,
             produtos.nome AS produto_nome,
@@ -17,7 +16,6 @@ $sql = "SELECT
 
 $result = $conn->query($sql);
 
-// Inicializar a variável para o valor total
 $total = 0;
 ?>
 
